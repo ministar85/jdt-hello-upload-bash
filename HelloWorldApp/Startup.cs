@@ -48,8 +48,16 @@ namespace HelloWorldApp
                         return;
                     }
 
-                    var fileName = Path.GetFileName(file.FileName);
-                    await context.Response.WriteAsync($"You uploaded {fileName}");
+                    var uploadsPath = "/app/analyzed-jdts";
+                    Directory.CreateDirectory(uploadsPath);
+
+                    var filePath = Path.Combine(uploadsPath, Path.GetFileName(file.FileName));
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    await context.Response.WriteAsync($"You uploaded and saved {file.FileName}");
                 });
             });
         }
