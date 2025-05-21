@@ -11,4 +11,5 @@ WORKDIR /app
 COPY --from=build /app .
 COPY run.sh .
 RUN chmod +x run.sh
+RUN mkdir -p /app/analyzed-jdts
 ENTRYPOINT ["bash", "-c", "./run.sh && dotnet HelloWorldApp.dll"]
